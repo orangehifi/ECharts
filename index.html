@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+    <title>ECharts</title>
+    <!-- 引入 echarts.js -->
+    <script src="echarts.min.js"></script>
+<style type="text/css">
+#btn{font-size:12px;width: 90%;height:14px;
+}
+#btn div{
+width:25px;
+float:right;
+margin-left:1px;
+padding:2px 6px 2px 6px;
+
+}
+#first{
+color:#004191;
+border-radius:8px 0 0 8px;
+border:2px solid #004191;
+border-right:2px solid #004191;
+}
+#last{
+color:#E70012;
+border:2px solid #E70012;
+border-left:2px solid #E70012;
+border-right:2px solid #E70012;
+}
+#init{
+color:#FCD400;
+border-radius:0 8px 8px 0;
+border:2px solid #FCD400;
+border-left:2px solid #FCD400;
+}
+
+</style>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom --><div id="btn"><div id="init">自然</div><div id="last">后十</div><div id="first">前十 </div></div>
+
+  <div id="main" style="width: 100%;min-height:500px;height:90%;"></div>
+
+<script type="text/javascript">
+ window.onload = function(){
+ 	document.getElementById('main').style.height = window.screen.availHeight + 'px';
+	document.getElementById('main').style.width = window.screen.availWidth + 'px';
+  }
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        var myFirst = document.getElementById('first');
+        var myLast = document.getElementById('last');
+        var myInt = document.getElementById('init');
+
+        // 指定图表的配置项和数据
+var dataAxis = ['点', '击', '柱', '子', '或', '者', '两', '指', '在', '触', '屏', '上', '滑', '动', '能', '够', '自', '动', '缩', '放'];
+var data = [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149, 210, 122, 133, 334, 198, 123, 125, 220];
+
+var datafirst = data.slice(0);
+var datafirst = datafirst.sort(function(a,b){return a<b?1:-1});
+var datalast =　datafirst.slice(0).reverse();
+
+var yMax = 500;
+
+var dataShadow = [];
+
+for (var i = 0; i < data.length; i++) {
+    dataShadow.push(yMax);
+}
+
+option = {
+    title: {
+        text: '标题标题标题',
+        subtext: '副标题副标题副标题副标题副标题 '
+    },
+    xAxis: {
+        data: dataAxis,
+        axisLabel: {
+            inside: true,
+            textStyle: {
+                color: '#fff'
+            }
+        },
+        axisTick: {
+            show: false
+        },
+        axisLine: {
+            show: false
+        },
+        z: 10
+    },
+    yAxis: {
+        axisLine: {
+            show: false
+        },
+        axisTick: {
+            show: false
+        },
+        axisLabel: {
+            textStyle: {
+                color: '#999'
+            }
+        }
+    },
+
+    dataZoom: [
+        {
+            type: 'inside'
+        }
+    ],
+					
+    series: [
+        { // For shadow
+            type: 'bar',
+            itemStyle: {
+                normal: {color: 'rgba(0,0,0,0.05)'}
+            },
+            barGap:'-100%',
+            barCategoryGap:'40%',
+            data: dataShadow,
+            animation: false
+        },
+        {
+            type: 'bar',
+			
+			
+							label: {
+							normal: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        },
+				},
+				
+			
+			
+			
+            itemStyle: {
+                normal: {
+				
+
+				
+                    color: new echarts.graphic.LinearGradient(
+                        0, 0, 0, 1,
+                        [
+                            {offset: 0, color: '#83bff6'},
+                            {offset: 0.5, color: '#188df0'},
+                            {offset: 1, color: '#188df0'}
+                        ]
+                    )
+                },
+				
+
+				
+				
+				
+                emphasis: {
+                    color: new echarts.graphic.LinearGradient(
+                        0, 0, 0, 1,
+                        [
+                            {offset: 0, color: '#2378f7'},
+                            {offset: 0.7, color: '#2378f7'},
+                            {offset: 1, color: '#83bff6'}
+                        ]
+                    )
+                }
+            },
+            data: data
+        }
+    ]
+};
+
+option1 = {
+
+    series: [
+        { // For shadow
+            type: 'bar',
+            itemStyle: {
+                normal: {color: 'rgba(0,0,0,0.05)'}
+            },
+            barGap:'-100%',
+            barCategoryGap:'40%',
+            data: dataShadow,
+            animation: false
+        },
+        {
+            type: 'bar',
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(
+                        0, 0, 0, 1,
+                        [
+                            {offset: 0, color: '#83bff6'},
+                            {offset: 0.5, color: '#188df0'},
+                            {offset: 1, color: '#188df0'}
+                        ]
+                    )
+                },
+                emphasis: {
+                    color: new echarts.graphic.LinearGradient(
+                        0, 0, 0, 1,
+                        [
+                            {offset: 0, color: '#2378f7'},
+                            {offset: 0.7, color: '#2378f7'},
+                            {offset: 1, color: '#83bff6'}
+                        ]
+                    )
+                }
+            },
+            data: datafirst
+        }
+    ]
+};
+
+option2 = {
+
+    series: [
+        { // For shadow
+            type: 'bar',
+            itemStyle: {
+                normal: {color: 'rgba(0,0,0,0.05)'}
+            },
+            barGap:'-100%',
+            barCategoryGap:'40%',
+            data: dataShadow,
+            animation: false
+        },
+        {
+            type: 'bar',
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(
+                        0, 0, 0, 1,
+                        [
+                            {offset: 0, color: '#83bff6'},
+                            {offset: 0.5, color: '#188df0'},
+                            {offset: 1, color: '#188df0'}
+                        ]
+                    )
+                },
+                emphasis: {
+                    color: new echarts.graphic.LinearGradient(
+                        0, 0, 0, 1,
+                        [
+                            {offset: 0, color: '#2378f7'},
+                            {offset: 0.7, color: '#2378f7'},
+                            {offset: 1, color: '#83bff6'}
+                        ]
+                    )
+                }
+            },
+            data: datalast
+        }
+    ]
+};
+
+// Enable data zoom when user click bar.
+var zoomSize = 6;
+myChart.on('click', function (params) {
+    console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)]);
+    myChart.dispatchAction({
+        type: 'dataZoom',
+        startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
+        endValue: dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
+    });
+});
+
+myFirst.onclick = function (){
+console.log(datafirst);
+myChart.setOption(option1);
+    myChart.dispatchAction({
+        type: 'dataZoom',
+        startValue: 0,
+        endValue: 9
+	});
+};
+myLast.onclick = function (){
+console.log(datalast);
+    myChart.dispatchAction({
+        type: 'dataZoom',
+        startValue: 0,
+        endValue: 9
+	});
+myChart.setOption(option2);
+
+};
+myInt.onclick = function (){
+    myChart.dispatchAction({
+        type: 'dataZoom',
+        startValue: 0,
+        endValue: dataAxis[Math.max]
+	});
+myChart.setOption(option);
+
+};
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+	
+	
+</body>
+</html>
